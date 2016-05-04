@@ -1,0 +1,75 @@
+Étapes pour partir un projet
+
+Pour Python2:
+sudo apt-get install mysql-python
+
+
+Faire une base de données
+mysql> CREATE DATABASE ecomstore CHARACTER SET utf8;
+mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+mysql> GRANT ALL ON ecomstore.* TO 'username'@'localhost';
+
+
+Partir un projet dans un virtualenv:
+
+virtualenv -p python2.7 env2
+Pour Python3:  virtualenv -p python3 envname
+source env2/bin/activate
+pip install django
+Pour python2: pip install mysql-python
+Pour Python3: pip install mysqlclient
+
+django-admin.py startproject ecomstore .
+cd ecomstore
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'ecomstore',
+        'USER': 'francis',
+        'PASSWORD': 'Sisdrag6',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
+}
+
+We'll also need to add a path for static files (we'll find out all about static files and CSS later in the tutorial). Go down to the end of the file, and just underneath the STATIC_URL entry, add a new one called STATIC_ROOT:
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+
+python manage.py dbshell
+
+
+Autres programmes à installer:
+--South Migration
+pip install south
+--Django db blog (montre les exceptions et les erreurs)
+pip install django-db-log
+
+
+
+python manage.py startapp nomdelapp (ici, va générer un app, ex: blog, ecom, etc)
+
+ajouter l'app a la liste de apps
+--'nomdelapp',
+
+ensuite on peut créer les models (les objets et leurs caractéristiques) dans models.py
+
+une fois fait, on 'python manage.py makemigrations nomdelapp'
+
+
+python manage.py makemigrations blog
+et
+python manage.py migrate blog
+
+pour inclure l'app dans l'admin:
+admin.py: 
+from .models import Post
+
+admin.site.register(Post)
+
+
+
